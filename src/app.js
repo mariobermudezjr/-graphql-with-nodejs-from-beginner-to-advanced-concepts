@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { GraphQLServer } from 'graphql-yoga';
 import graphqlConfig from './api';
-import { APP_SECRET } from './config';
 
 const PORT = 3000;
 mongoose.Promise = global.Promise;
@@ -15,8 +14,7 @@ const options = {
   debug: true,
   port: PORT,
   endpoint: '/graphql',
-  playground: '/docs',
-  secret: APP_SECRET
+  playground: '/docs'
 };
 
 const server = new GraphQLServer(graphqlConfig);

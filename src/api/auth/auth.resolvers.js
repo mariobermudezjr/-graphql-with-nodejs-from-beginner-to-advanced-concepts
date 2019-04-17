@@ -1,15 +1,18 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { APP_SECRET } from '../../config';
+import { validateUser } from '../../utils/util';
 
 async function signup(_, { input }, ctx, info) {
-  console.log('Signup is Ran');
-  console.log('User Email: ', input.email);
-  console.log('User Password: ', input.password);
+  const { value, error } = validateUser(input);
 
-  const password = await bcrypt.hash(input.password, 10);
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const password = await bcrypt.hash(value.password, 10);
   const user = await ctx.models.auth.create({
-    email: input.email,
+    email: value.email,
     password
   });
 
